@@ -1,9 +1,10 @@
 #BUGS->
 1) null test is allowed - FIXED
 2) give scrolling function - FIXED
+3) delconq -> test_qun.php redirection undefined arraykay error (get method)
 
 
-
+Personal Ref
 
 
 
@@ -20,6 +21,7 @@
 1) delcon dialog box styling
 3) style dropdown
 4) fixed top navbar class 
+5) qun image flexible Option
 
 
 

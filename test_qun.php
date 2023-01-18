@@ -4,7 +4,11 @@
     $con = mysqli_connect('localhost' , 'root');
     mysqli_select_db($con,'codespindle');
 
-    $id = $_GET['id'];
+    if (isset($_GET['id'])) {
+        $id = $_GET['id'];
+    } else {
+    return;
+    }
     $res = mysqli_query($con , "select * from tcat where tid = $id");
     while($row = mysqli_fetch_array($res)){
         $ename  = $row["tname"];
@@ -207,6 +211,7 @@ if(isset($_POST["aqni"])){
                                 <th>Option 3</th>
                                 <th>Option 4</th>
                                 <th>Answer</th>
+                                <th>Delete</th>
                                 </tr>
                             </thead>
 
@@ -218,12 +223,67 @@ if(isset($_POST["aqni"])){
 
                                 <tr>
                                     <td><p><?php echo $ro["question_no"] ?></p></td>
-                                    <td><p><?php echo $ro["qun"] ?></p></td>
-                                    <td><?php echo $ro["opt1"] ?></td>
-                                    <td><?php echo $ro["opt2"] ?></td>
-                                    <td><?php echo $ro["opt3"] ?></td>
-                                    <td><?php echo $ro["opt4"] ?></td>
-                                    <td><?php echo $ro["answer"] ?></td>
+                                    <td><?php
+                                    if(strpos($ro["qun"],'qna_images') !== false){
+                                        ?>
+                                        <img src="<?php echo $ro["qun"] ?>" alt="Img Not Avl" height="50" width="50">
+                                        <?php
+                                    }
+                                    else{
+                                        echo $ro["qun"];
+                                    }
+                                    ?></td>
+                                    <td><?php
+                                    if(strpos($ro["opt1"],'qna_images') !== false){
+                                        ?>
+                                        <img src="<?php echo $ro["opt1"] ?>" alt="Img Not Avl" height="50" width="50">
+                                        <?php
+                                    }
+                                    else{
+                                        echo $ro["opt1"];
+                                    }
+                                    ?></td>
+                                    <td><?php
+                                    if(strpos($ro["opt2"],'qna_images') !== false){
+                                        ?>
+                                        <img src="<?php echo $ro["opt2"] ?>" alt="Img Not Avl" height="50" width="50">
+                                        <?php
+                                    }
+                                    else{
+                                        echo $ro["opt2"];
+                                    }
+                                    ?></td>
+                                    <td><?php
+                                    if(strpos($ro["opt3"],'qna_images') !== false){
+                                        ?>
+                                        <img src="<?php echo $ro["opt3"] ?>" alt="Img Not Avl" height="50" width="50">
+                                        <?php
+                                    }
+                                    else{
+                                        echo $ro["opt3"];
+                                    }
+                                    ?></td>
+                                    <td><?php
+                                    if(strpos($ro["opt4"],'qna_images') !== false){
+                                        ?>
+                                        <img src="<?php echo $ro["opt4"] ?>" alt="Img Not Avl" height="50" width="50">
+                                        <?php
+                                    }
+                                    else{
+                                        echo $ro["opt4"];
+                                    }
+                                    ?></td>
+                                    <td><?php
+                                    if(strpos($ro["answer"],'qna_images') !== false){
+                                        ?>
+                                        <img src="<?php echo $ro["answer"] ?>" alt="Img Not Avl" height="50" width="50">
+                                        <?php
+                                    }
+                                    else{
+                                        echo $ro["answer"];
+                                    }
+                                    ?></td>
+                                    <td><a href="delconq.php?id=<?php echo $ro["qid"]; ?>" style="color:red; text-decoration: none;">Delete</a></td>
                                 </tr>
                                 <?php
                             }
@@ -239,10 +299,10 @@ if(isset($_POST["aqni"])){
     </div>
 
         <!----------------------------------------------- dialog box for add qun form ---------------------------------------------------->
-        <div class="container" id="addqf" style="position:fixed; z-index: 2;left: 150px;bottom: 250px;">
+        <div class="container" id="addqf" style="position:relative; z-index: 2;bottom:200px">
             <form id="qf" action="" method="post"></form>
                 <div class="form-group">
-                    <label for="qname">Question Name<a onclick="showiform()" style="padding-left:70px; text-decoration:none;  cursor:pointer;">[Image]</a></label>
+                    <label for="qname">Question<button onclick="showiform()" class="btn btn-primary btn-dark" style="margin:10px;">Image</button></label>
                     <input form="qf" type="text" name="qname" class="form-control">
                 </div>
                 <div class="form-group">
@@ -273,7 +333,7 @@ if(isset($_POST["aqni"])){
 
         <!-- ---------------------------------------------------dbox for img optns----------------------------------------------------- -->
 
-        <div class="container" id="addimg" style="position:fixed; z-index: 3;left:150px;bottom: 250px;">
+        <div class="container" id="addimg" style="position:relative; z-index: 3;bottom: 250px;">
             <form id="imf" action="" enctype="multipart/form-data" method="post"></form>
                 <div class="form-group">
                     <label for="qname">Question Image</label>
