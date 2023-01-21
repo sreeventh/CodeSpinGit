@@ -11,8 +11,15 @@ $con = mysqli_connect('localhost' , 'root');
 
 mysqli_select_db($con,'codespindle');
 
+
 if(isset($_POST["create"])){
-    $tdata = "insert into tcat values (NULL , '$_POST[tname]' , '$_POST[ttime]') ";
+    
+    $dup_name = $_POST['tname'];
+    $dupset_1 = mysqli_query($con , "select * from tcat where tname='$dup_name' ") or die(mysqli_error($con));
+    $dcount = mysqli_num_rows($dupset_1);
+   if($dcount == 0)
+    {
+        $tdata = "insert into tcat values (NULL , '$_POST[tname]' , '$_POST[ttime]') ";
     $update_result = mysqli_query( $con , $tdata ) or die ('Unable to execute query. '. mysqli_error($con));
     ?>
     <script>
@@ -20,7 +27,20 @@ if(isset($_POST["create"])){
         window.location.href = window.location.href;
     </script>
     <?php
-}
+       
+    }
+    else{
+       ?>
+       <script>
+        alert("Test Already Present!...Create a New One Please")
+        window.location.href = window.location.href
+       </script>
+       <?php
+    }
+    }
+    
+
+
 ?>
 
 
@@ -137,9 +157,9 @@ if(isset($_POST["create"])){
                                             <th><?php echo $count; ?></th>
                                             <td><?php echo $row['tname']; ?></td>
                                             <td><?php echo $row['tdur']; ?></td>
-                                            <td><a href="test_qun.php? id=<?php echo $row['tid']; ?>" style="text-decoration: none; color:green">Add Qun</a></td>
-                                            <td><a href="editt.php? id=<?php echo $row['tid']; ?>" style="text-decoration: none; color:orange">Edit</a></td>
-                                            <td><a href="delcont.php? id=<?php echo $row['tid']; ?>" style="text-decoration: none; color:crimson">Delete</a></td>
+                                            <td><a href="test_qun.php? id=<?php echo $row['tid']; ?>" style="text-decoration: none; color:green; font-size: xx-large; ;">+</a></td>
+                                            <td><a href="editt.php? id=<?php echo $row['tid']; ?>" style="text-decoration: none; color:orange">✏</a></td>
+                                            <td><a href="delcont.php? id=<?php echo $row['tid']; ?>" style="text-decoration: none; color:crimson">❌</a></td>
                                         </tr>    
                                         <?php
                                         
@@ -154,7 +174,7 @@ if(isset($_POST["create"])){
 
         <!------------------------------------------------ dialog box for new test --------------------------------------------------------------------->
         
-        <div class="container" id="newtdb" style="position:relative;bottom:450px;z-index:2;">
+        <div class="container" id="newtdb" style="position:fixed;bottom:450px;top:150px;left:200px;z-index:2;">
             <form id="newtf" name="newtf" action="set_test.php" method="POST" onsubmit="return nullw()"></form>
                 <div class="form-group">
                     <label for="tname">Test Name</label>
