@@ -17,7 +17,7 @@ if(isset($_POST["create"])){
     $dup_name = $_POST['tname'];
     $dupset_1 = mysqli_query($con , "select * from tcat where tname='$dup_name' ") or die(mysqli_error($con));
     $dcount = mysqli_num_rows($dupset_1);
-   if($dcount == 0)
+   if($dcount == 0 && $_POST['ttime']>0)
     {
         $tdata = "insert into tcat values (NULL , '$_POST[tname]' , '$_POST[ttime]') ";
     $update_result = mysqli_query( $con , $tdata ) or die ('Unable to execute query. '. mysqli_error($con));
@@ -32,7 +32,7 @@ if(isset($_POST["create"])){
     else{
        ?>
        <script>
-        alert("Test Already Present!...Create a New One Please")
+        alert("Test Already Present! (or) Duration Invalid!")
         window.location.href = window.location.href
        </script>
        <?php
