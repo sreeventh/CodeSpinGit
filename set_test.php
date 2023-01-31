@@ -17,7 +17,7 @@ if(isset($_POST["create"])){
     $dup_name = $_POST['tname'];
     $dupset_1 = mysqli_query($con , "select * from tcat where tname='$dup_name' ") or die(mysqli_error($con));
     $dcount = mysqli_num_rows($dupset_1);
-   if($dcount == 0 && $_POST['ttime']>0)
+   if($dcount == 0 and $_POST['ttime']>0)
     {
         $tdata = "insert into tcat values (NULL , '$_POST[tname]' , '$_POST[ttime]') ";
     $update_result = mysqli_query( $con , $tdata ) or die ('Unable to execute query. '. mysqli_error($con));
@@ -29,13 +29,21 @@ if(isset($_POST["create"])){
     <?php
        
     }
-    else{
+    else if($dcount!=0){
        ?>
        <script>
-        alert("Test Already Present! (or) Duration Invalid!")
+        alert("Test Already Present!...Create a New One Please")
         window.location.href = window.location.href
        </script>
        <?php
+    }
+    else{
+        ?>
+        <script>
+            alert("Test Duration Invalid!")
+            window.location.href = window.location.href
+        </script>
+        <?php
     }
     }
     
@@ -76,7 +84,7 @@ if(isset($_POST["create"])){
                             <a class="nav-link" href="java.php">Java</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="html.html">Html</a>
+                            <a class="nav-link" href="html.php">Html</a>
                         </li>
                         <?php 
                     if($_SESSION['type']=="admin"){
@@ -89,7 +97,7 @@ if(isset($_POST["create"])){
                 ?>
 
                         <li class="nav-item">
-                            <a class="nav-link" href="take_test.html">Take Test</a>
+                            <a class="nav-link" href="take_test.php">Take Test</a>
                         </li>
 
                         <li>
@@ -126,10 +134,9 @@ if(isset($_POST["create"])){
                         Create New Test
                     </button>
             </div>
-
             <div id="ttable" class="container-fluid">
                 <div class="card">
-                    <div class="card-header">
+                    <div class="card-header" style="text-align: center;">
                         <strong class="card-title">Current Tests</strong>
                     </div>
 
@@ -140,7 +147,7 @@ if(isset($_POST["create"])){
                                 <th>#</th>
                                 <th>Name</th>
                                 <th>Duration</th>
-                                <th>Add Qun</th>
+                                <th>Questions</th>
                                 <th>Edit</th>
                                 <th>Delete</th>
                                 </tr>

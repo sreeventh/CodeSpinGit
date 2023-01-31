@@ -13,6 +13,7 @@ if (!isset($_SESSION["username"])) {
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>CodeSpindle</title>
     <!-- css style sheet -->
     <link rel="stylesheet" href="styles.css">
@@ -40,7 +41,7 @@ if (!isset($_SESSION["username"])) {
                         <a class="nav-link" href="java.php">Java</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="html.html">Html</a>
+                        <a class="nav-link" href="html.php">Html</a>
                     </li>
                     <?php
                     if ($_SESSION['type'] == "admin") {
@@ -53,7 +54,7 @@ if (!isset($_SESSION["username"])) {
                     ?>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="take_test.html">Take Test</a>
+                        <a class="nav-link" href="take_test.php">Take Test</a>
                     </li>
 
                     <li>
@@ -80,7 +81,8 @@ if (!isset($_SESSION["username"])) {
     <!-- ------------------------------------------------------------------------------------------------------------------------------------- -->
     <div class="container-fluid">
         <h1 style="text-align: center; margin-top: 20px;">
-            Welcome to CodeSpindle <?php
+            Welcome to CodeSpindle
+            <?php
             if (isset($_SESSION['username'])) {
                 echo $_SESSION['username'];
             }

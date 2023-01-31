@@ -69,7 +69,7 @@ if (array_key_exists('delbtn', $_POST)) {
                         <a class="nav-link" href="java.php">Java</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="html.html">Html</a>
+                        <a class="nav-link" href="html.php">Html</a>
                     </li>
                     <?php
                     if ($_SESSION['type'] == "admin") {
@@ -82,7 +82,7 @@ if (array_key_exists('delbtn', $_POST)) {
                     ?>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="take_test.html">Take Test</a>
+                        <a class="nav-link" href="take_test.php">Take Test</a>
                     </li>
 
                     <li>
@@ -118,8 +118,8 @@ if (array_key_exists('delbtn', $_POST)) {
         <h5>Delete Question->
             <?php echo $qname ?>?
         </h5>
-        <input form="delform" type="submit" class="btn btn-dark" name="delbtn" value="yes">
-        <button onclick="location.href='set_test.php'" class="btn btn-danger">no</button>
+        <input form="delform" type="submit" class="btn btn-dark" name="delbtn" value="Yes">
+        <button onclick="location.href='set_test.php'" class="btn btn-danger">No</button>
     </div>
 
 

@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Add qun</title>
+        <title>Test Qun</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="styles.css">
         <!-- favicon -->
@@ -144,7 +144,7 @@
                             <a class="nav-link" href="java.php">Java</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="html.html">Html</a>
+                            <a class="nav-link" href="html.php">Html</a>
                         </li>
                         <?php 
                         if($_SESSION['type']=="admin"){
@@ -156,7 +156,7 @@
                     }
                 ?>
                         <li class="nav-item">
-                            <a class="nav-link" href="take_test.html">Take Test</a>
+                            <a class="nav-link" href="take_test.php">Take Test</a>
                         </li>
                         <li>
 
@@ -209,6 +209,7 @@
                                 <th>Option 3</th>
                                 <th>Option 4</th>
                                 <th>Answer</th>
+                                <th>Edit</th>
                                 <th>Delete</th>
                                 </tr>
                             </thead>
@@ -281,6 +282,7 @@
                                         echo $ro["answer"];
                                     }
                                     ?></td>
+                                    <td><a href="editq.php?id=<?php echo $ro["qid"]; ?>" style="text-decoration: none;">✏</a></td>
                                     <td><a href="delconq.php?id=<?php echo $ro["qid"]; ?>" style="color:red; text-decoration: none;">❌</a></td>
                                 </tr>
                                 <?php
