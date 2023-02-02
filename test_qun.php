@@ -27,7 +27,7 @@
         return;
         }
         $res = mysqli_query($con , "select * from tcat where tid = $id");
-        while($row = mysqli_fetch_assoc($res)){
+        while($row = mysqli_fetch_array($res)){
             $ename  = $row["tname"];
         }
 
@@ -44,7 +44,7 @@
             else{
                 while($row = mysqli_fetch_array($res)){
                     $loop+=1;
-                    mysqli_query($con, "update tqn set question_no='$loop' where qid='"+$row['qid']+"'");
+                    mysqli_query($con, "update tqn set question_no='$loop' where qid='".$row['qid']."'");
                 }
             }
             $loop+=1;
@@ -282,8 +282,8 @@
                                         echo $ro["answer"];
                                     }
                                     ?></td>
-                                    <td><a href="editq.php?id=<?php echo $ro["qid"]; ?>" style="text-decoration: none;">✏</a></td>
-                                    <td><a href="delconq.php?id=<?php echo $ro["qid"]; ?>" style="color:red; text-decoration: none;">❌</a></td>
+                                    <td><a href="editq.php?id=<?php echo $id; ?>&qid=<?php echo $ro["qid"]; ?>" style="text-decoration: none;">✏</a></td>
+                                    <td><a href="delconq.php?id=<?php echo $id; ?>&qid=<?php echo $ro["qid"]; ?>" style="color:red; text-decoration: none;">❌</a></td>
                                 </tr>
                                 <?php
                             }

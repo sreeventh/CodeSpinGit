@@ -4,14 +4,14 @@ session_start();
 
 $con = mysqli_connect('localhost', 'root');
 mysqli_select_db($con,'codespindle');
-
-if (isset($_GET['id'])) {
+if (isset($_GET['qid'])) {
+    $qid = $_GET['qid'];
     $id = $_GET['id'];
 } else {
 return;
 }
 
-$tem = mysqli_query($con, "select * from tqn where qid=$id");
+$tem = mysqli_query($con, "select * from tqn where qid=$qid");
 while($temp = mysqli_fetch_array($tem)){
     $qname = $temp["qun"];
 } 
@@ -21,11 +21,12 @@ function delq(){
     $con = mysqli_connect('localhost', 'root');
     mysqli_select_db($con, 'codespindle');
     // query must always be in double quotes!
+    $qid = $_GET['qid'];
     $id = $_GET['id'];
-    mysqli_query($con, "delete from tqn where qid = $id");
+    mysqli_query($con, "delete from tqn where qid = $qid");
     ?>
     <script>
-        window.location.href = "set_test.php"
+        window.location.href = "test_qun.php?id=<?php echo $id; ?>";
     </script>
 
     <?php
@@ -49,7 +50,7 @@ if (array_key_exists('delbtn', $_POST)) {
     <!-- css boot -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-
+    <link rel="icon" href="images/favicon.ico">
     <title>Delete Question</title>
 </head>
 
@@ -119,7 +120,7 @@ if (array_key_exists('delbtn', $_POST)) {
             <?php echo $qname ?>?
         </h5>
         <input form="delform" type="submit" class="btn btn-dark" name="delbtn" value="Yes">
-        <button onclick="location.href='set_test.php'" class="btn btn-danger">No</button>
+        <button onclick="location.href='test_qun.php?id=<?php echo $id; ?>'" class="btn btn-danger">No</button>
     </div>
 
 
