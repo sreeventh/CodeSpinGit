@@ -2,5 +2,5 @@
 # CodeSpinGit
 Developed By The Fans For The Fans
 
-ThankYou Satish sir for making engineering easier!.....
+ThankYou Satish Sir For Making Engineering Easier!.....
 
