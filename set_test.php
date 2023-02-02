@@ -10,10 +10,6 @@ $con = mysqli_connect('localhost', 'root');
 
 mysqli_select_db($con, 'codespindle');
 
-
-if(isset($_POST["deploy"])){
-    header("Location:deploy.php");
-}
 if (isset($_POST["create"])) {
 
     $dup_name = $_POST['tname'];
@@ -181,7 +177,7 @@ if (isset($_POST["create"])) {
                                     <td><a href="delcont.php?id=<?php echo $row['tid']; ?>"
                                             style="text-decoration: none; color:crimson; font-size: x-large;">❌</a></td>
                                     <td style="font-size: x-large;">
-                                        <a onclick="opa('dtdb','<?php echo $row['tid']; ?>')" style="cursor: pointer; text-decoration: none;">🚀</a>
+                                        <a onclick="opan('dtdb','<?php echo $row['tid']; ?>')" style="cursor: pointer; text-decoration: none;">🚀</a>
                                     </td>
                                 </tr>
                                 <?php
@@ -216,7 +212,7 @@ if (isset($_POST["create"])) {
     <!-- -----------------------------------------dialog box for deploy test----------------------------------------- -->
 
     <div class="container_fluid" id="dtdb" style="position:absolute;left: 100px;bottom:300px; z-index:2;">
-        <form action="" method="post" name="dt" id="dt"></form>
+        <form action="deploy.php" method="post" name="dt" id="dt"></form>
         <label for="dep">Deploy Test</label>
         <input form="dt" type="submit" name="deploy" value="Deploy" class="btn btn-dark">
         <input type="hidden" form="dt" name="tid" id="tid" value=""> 
