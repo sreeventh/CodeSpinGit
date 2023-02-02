@@ -158,6 +158,13 @@ if (isset($_POST["create"])) {
                             $count = 0;
                             $test = mysqli_query($con, "select * from tcat");
                             while ($row = mysqli_fetch_array($test)) {
+                                if($row['deploy_stat']==1){
+                                    ?>
+                                    <script>
+                                        document.getElementById("sts").style.backgroundColor="crimson"
+                                    </script>
+                                    <?php
+                                }
                                 $count += 1;
                                 ?>
                                 <tr>
@@ -176,7 +183,7 @@ if (isset($_POST["create"])) {
                                             style="text-decoration: none; color:orange; font-size: x-large;">✏</a></td>
                                     <td><a href="delcont.php?id=<?php echo $row['tid']; ?>"
                                             style="text-decoration: none; color:crimson; font-size: x-large;">❌</a></td>
-                                    <td style="font-size: x-large;">
+                                    <td style="font-size: x-large;" id="sts">
                                         <a onclick="opan('dtdb','<?php echo $row['tid']; ?>')" style="cursor: pointer; text-decoration: none;">🚀</a>
                                     </td>
                                 </tr>
@@ -267,6 +274,8 @@ if (isset($_POST["create"])) {
         }
     </script>
 
+        
+
     <!-- JavaScript Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
@@ -275,3 +284,8 @@ if (isset($_POST["create"])) {
 </body>
 
 </html>
+
+
+
+
+   
