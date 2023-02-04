@@ -16,7 +16,7 @@ if (isset($_POST["create"])) {
     $dupset_1 = mysqli_query($con, "select * from tcat where tname='$dup_name' ") or die(mysqli_error($con));
     $dcount = mysqli_num_rows($dupset_1);
     if ($dcount == 0 and $_POST['ttime'] > 0) {
-        $tdata = "insert into tcat values (NULL , '$_POST[tname]' , '$_POST[ttime]') ";
+        $tdata = "insert into tcat values (NULL , '$_POST[tname]' , '$_POST[ttime]' , 0) ";
         $update_result = mysqli_query($con, $tdata) or die('Unable to execute query. ' . mysqli_error($con));
         ?>
         <script>
@@ -227,7 +227,7 @@ if (isset($_POST["create"])) {
 
     <div class="container_fluid" id="dtdb" style="position:absolute;left: 100px;bottom:300px; z-index:2;">
         <form action="deploy.php" method="post" name="dt" id="dt"></form>
-        <input form="dt" type="submit" name="deploy" value="Deploy" class="btn btn-dark">
+        <input form="dt" type="submit" name="deploy" value="Fire" class="btn btn-dark">
         <input type="hidden" form="dt" name="tid" id="tid" value="">
         <button onclick="close1('dtdb')" class="btn btn-danger">Abort</button>
     </div>
