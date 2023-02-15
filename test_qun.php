@@ -34,7 +34,6 @@
         if(isset($_POST["aqn"])){
             $loop=0;
             $count=0;
-
             $res = mysqli_query($con , "select * from tqn where category='$ename' order by qid asc ") or die(mysqli_error($con));
             $count = mysqli_num_rows($res);
 
@@ -48,7 +47,7 @@
                 }
             }
             $loop+=1;
-            mysqli_query($con , "insert into tqn(question_no , qun , opt1, opt2 , opt3 , opt4 , answer , category) values ('$loop' , '$_POST[qname]' , '$_POST[op1]' , '$_POST[op2]' , '$_POST[op3]' , '$_POST[op4]' , '$_POST[ans]' , '$ename' )") or die(mysqli_error($con)) ;
+            mysqli_query($con , "insert into tqn(question_no , qun , opt1, opt2 , opt3 , opt4 , answer , category) values ('$loop' , '$_POST[qname]' , '$_POST[op1]' , '$_POST[op2]' , '$_POST[op3]' , '$_POST[op4]' , '".$_POST[$_POST['opta']]."' , '$ename' )") or die(mysqli_error($con)) ;
 
             ?>
             <script>
@@ -105,11 +104,27 @@
         move_uploaded_file($_FILES["iop4"]["tmp_name"] , $dest4);
 
 
-        $fil5 = $_FILES["ians"]["name"];
-        $dest5 = "./qna_images".$tim.$fil5;
-        $dest_db5 = "qna_images/".$tim.$fil5;
-        move_uploaded_file($_FILES["ians"]["tmp_name"] , $dest5);
-
+        $answer = "";
+        if (isset($_POST["iopta"])) {
+            $answer = $_POST["iopta"];
+            switch ($answer) {
+                case "iop1":
+                    $dest_db5 = $dest_db1;
+                    break;
+                case "iop2":
+                    $dest_db5 = $dest_db2;
+                    break;
+                case "iop3":
+                    $dest_db5 = $dest_db3;
+                    break;
+                case "iop4":
+                    $dest_db5 = $dest_db4;
+                    break;
+                default:
+                    $dest_db5 = "";
+                    break;
+            }
+        }
 
         $fil6 = $_FILES["iqname"]["name"];
         $dest6 = "./qna_images/".$tim.$fil6;
@@ -188,7 +203,7 @@
     <div id="addlist" style="position: relative;">
         <!---------------------------------------------- add qun done ------------------------------------------------->
         <div class="container-fluid" style="padding:10px">
-            <button onclick="showform()" class="btn btn-dark btn-primary btn-lg">Add Question</button>
+            <button onclick="showform()" class="btn btn-dark btn-primary btn-lg btn-outline-light">Add Question</button>
             <a href="set_test.php"><button class="btn btn-outline-dark btn-light btn-primary btn-lg">Done</button></a>
         </div>
         <!--------------------------------------------- list of qun table ------------------------------------------>
@@ -225,7 +240,7 @@
                                     <td><?php
                                     if(strpos($ro["qun"],'qna_images') !== false){
                                         ?>
-                                        <img src="<?php echo $ro["qun"] ?>" alt="Img Not Avl" height="50" width="50">
+                                        <img src="<?php echo $ro["qun"] ?>" alt="Img Not Avl" height="200" width="200">
                                         <?php
                                     }
                                     else{
@@ -235,7 +250,7 @@
                                     <td><?php
                                     if(strpos($ro["opt1"],'qna_images') !== false){
                                         ?>
-                                        <img src="<?php echo $ro["opt1"] ?>" alt="Img Not Avl" height="50" width="50">
+                                        <img src="<?php echo $ro["opt1"] ?>" alt="Img Not Avl" height="200" width="200">
                                         <?php
                                     }
                                     else{
@@ -245,7 +260,7 @@
                                     <td><?php
                                     if(strpos($ro["opt2"],'qna_images') !== false){
                                         ?>
-                                        <img src="<?php echo $ro["opt2"] ?>" alt="Img Not Avl" height="50" width="50">
+                                        <img src="<?php echo $ro["opt2"] ?>" alt="Img Not Avl" height="200" width="200">
                                         <?php
                                     }
                                     else{
@@ -255,7 +270,7 @@
                                     <td><?php
                                     if(strpos($ro["opt3"],'qna_images') !== false){
                                         ?>
-                                        <img src="<?php echo $ro["opt3"] ?>" alt="Img Not Avl" height="50" width="50">
+                                        <img src="<?php echo $ro["opt3"] ?>" alt="Img Not Avl" height="200" width="200">
                                         <?php
                                     }
                                     else{
@@ -265,7 +280,7 @@
                                     <td><?php
                                     if(strpos($ro["opt4"],'qna_images') !== false){
                                         ?>
-                                        <img src="<?php echo $ro["opt4"] ?>" alt="Img Not Avl" height="50" width="50">
+                                        <img src="<?php echo $ro["opt4"] ?>" alt="Img Not Avl" height="200" width="200">
                                         <?php
                                     }
                                     else{
@@ -275,7 +290,7 @@
                                     <td><?php
                                     if(strpos($ro["answer"],'qna_images') !== false){
                                         ?>
-                                        <img src="<?php echo $ro["answer"] ?>" alt="Img Not Avl" height="50" width="50">
+                                        <img src="<?php echo $ro["answer"] ?>" alt="Img Not Avl" height="200" width="200">
                                         <?php
                                     }
                                     else{
@@ -299,7 +314,7 @@
     </div>
 
         <!----------------------------------------------- dialog box for add qun form ---------------------------------------------------->
-        <div class="container" id="addqf" style="position:relative; z-index: 2;bottom:200px">
+        <div class="container" id="addqf" style="position:sticky; z-index: 2;bottom:75px">
             <form id="qf" action="" method="post"></form>
                 <div class="form-group">
                     <label for="qname">Question<button onclick="showiform()" class="btn btn-primary btn-dark" style="margin:10px;">Image</button></label>
@@ -307,57 +322,60 @@
                 </div>
                 <div class="form-group">
                     <label for="op1">Option 1</label>
+                    <input form="qf" type="radio" name="opta" id="opt1" value="op1">
                     <textarea cols="10" rows="2" form="qf" type="text" name="op1" class="form-control"></textarea>
                 </div>
                 <div class="form-group">
                     <label for="op2">Option 2</label>
+                    <input form="qf" type="radio" name="opta" id="opt2" value="op2">
                     <textarea cols="10" rows="2" form="qf" type="text" name="op2" class="form-control"></textarea>
                 </div>
                 <div class="form-group">
                     <label for="op3">Option 3</label>
+                    <input form="qf" type="radio" name="opta" id="opt3" value="op3">
                     <textarea cols="10" rows="2" form="qf" type="text" name="op3" class="form-control"></textarea>
                 </div>
                 <div class="form-group">
                     <label for="op4">Option 4</label>
+                    <input form="qf" type="radio" name="opta" id="opt4" value="op4">
                     <textarea cols="10" rows="2" form="qf" type="text" name="op4" class="form-control"></textarea>
                 </div>
-                <div class="form-group">
+                <!-- <div class="form-group">
                     <label for="ans">Answer</label>
                     <textarea cols="10" rows="2" form="qf" type="text" name="ans" class="form-control"></textarea>
-                </div>
+                </div> -->
                 <br>
                 <input form="qf" type="submit" name="aqn" value="Add Qun" class="btn btn-dark">
-                <!-- DOUBT <a href="test_qun.php"><button class="btn btn-danger">Cancel</button></a> -->
                 <button onclick="clos('addqf')" class="btn btn-danger">Cancel</button>
         </div>
 
         <!-- ---------------------------------------------------dbox for img optns----------------------------------------------------- -->
 
-        <div class="container" id="addimg" style="position:relative; z-index: 3;bottom: 250px;">
+        <div class="container" id="addimg" style="position:sticky; z-index: 3;bottom: 250px;">
             <form id="imf" action="" enctype="multipart/form-data" method="post"></form>
                 <div class="form-group">
                     <label for="qname">Question Image</label>
                     <input form="imf" type="file" name="iqname" class="form-control">
                 </div>
                 <div class="form-group">
-                    <label for="op1">Option 1 Image</label>
+                    <label for="iop1">Option 1 Image</label>
+                    <input form="imf" type="radio" name="iopta" id="opt1" value="iop1">
                     <input form="imf" type="file" name="iop1" class="form-control">
                 </div>
                 <div class="form-group">
-                    <label for="op2">Option 2 Image</label>
+                    <label for="iop2">Option 2 Image</label>
+                    <input form="imf" type="radio" name="iopta" id="opt2" value="iop2">
                     <input form="imf" type="file" name="iop2" class="form-control">
                 </div>
                 <div class="form-group">
-                    <label for="op3">Option 3 Image</label>
+                    <label for="iop3">Option 3 Image</label>
+                    <input form="imf" type="radio" name="iopta" id="opt3" value="iop3">
                     <input form="imf" type="file" name="iop3" class="form-control">
                 </div>
                 <div class="form-group">
-                    <label for="op4">Option 4 Image</label>
+                    <label for="iop4">Option 4 Image</label>
+                    <input form="imf" type="radio" name="iopta" id="opt4" value="iop4">
                     <input form="imf" type="file" name="iop4" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label for="ans">Answer Image</label>
-                    <input form="imf" type="file" name="ians" class="form-control">
                 </div>
                 <br>
                 <input form="imf" type="submit" name="aqni" value="Add Qun" class="btn btn-dark">

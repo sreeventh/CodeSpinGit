@@ -207,7 +207,7 @@ if (isset($_POST["create"])) {
 
     <!------------------------------------------------ dialog box for new test --------------------------------------------------------------------->
 
-    <div class="container-fluid" id="newtdb" style="position:absolute;left: 100px;bottom:300px; z-index:2;">
+    <div class="container-fluid" id="newtdb" style="position:sticky;left: 100px;bottom:300px; z-index:2;">
         <form id="newtf" name="newtf" action="set_test.php" method="POST" onsubmit="return nullw()"></form>
         <div class="form-group">
             <label for="tname">Test Name</label>
@@ -225,7 +225,7 @@ if (isset($_POST["create"])) {
 
     <!-- -----------------------------------------dialog box for deploy test----------------------------------------- -->
 
-    <div class="container_fluid" id="dtdb" style="position:absolute;left: 100px;bottom:300px; z-index:2;">
+    <div class="container_fluid" id="dtdb" style="position:sticky; z-index:2;">
         <form action="deploy.php" method="post" name="dt" id="dt"></form>
         <input form="dt" type="submit" name="deploy" value="Fire" class="btn btn-dark">
         <input type="hidden" form="dt" name="tid" id="tid" value="">
@@ -233,7 +233,7 @@ if (isset($_POST["create"])) {
     </div>
 
     <!-- ----------------------------------dbox for new undeploy test---------------------------------- -->
-    <div class="container-fluid" id="ud" style="position:absolute;left: 100px;bottom:300px; z-index:2;">
+    <div class="container-fluid" id="ud" style="position:sticky; z-index:2;">
         <form action="undeploy.php" method="post" name="ut" id="ut"></form>
         <input type="submit" name="undeploy" form="ut" value="Kill" class="btn btn-dark">
         <input type="hidden" form="ut" name="ttid" id="ttid" value="">

@@ -51,7 +51,6 @@
   /* new test dialogbox */
   #newtdb {
     width: 50%;
-    height: 30%;
     outline-style: groove;
     padding: 10px;
     border-radius: 5px;
@@ -61,11 +60,16 @@
   #addqf,
   #addimg {
     width: 50%;
-    height: 60%;
     outline-style: groove;
     padding: 10px;
     border-radius: 5px;
     margin-top: 20px;
+  }
+  /* deploy */
+  #ud,
+  #dtdb{
+    bottom: 400px;
+    margin-left: 200px;
   }
 }
 
@@ -84,7 +88,6 @@
   /* new test dialog box */
   #newtdb {
     width: 25%;
-    height: 30%;
     outline-style: groove;
     padding: 10px;
     border-radius: 5px;
@@ -93,10 +96,14 @@
   #addqf,
   #addimg {
     width: 30%;
-    height: 60%;
     outline-style: groove;
     padding: 10px;
     border-radius: 5px;
+  }
+  /* deploy */
+  #ud,
+  #dtdb{
+    bottom: 400px; margin-left:700px;
   }
 }
 
@@ -115,7 +122,6 @@
   /* new test dialog box */
   #newtdb {
     width: 25%;
-    height: 30%;
     outline-style: groove;
     padding: 10px;
     border-radius: 5px;
@@ -124,10 +130,15 @@
   #addqf,
   #addimg {
     width: 25%;
-    height: 60%;
     outline-style: groove;
     padding: 10px;
     border-radius: 5px;
+  }
+
+  /* deploy */
+  #ud,
+  #dtdb{
+    bottom: 400px; margin-left:700px;
   }
 }
 

@@ -1,42 +1,22 @@
 <?php
-
 session_start();
 
+
+if (!isset($_SESSION["username"])) {
+    header('location: index.php');
+}
+
 $con = mysqli_connect('localhost', 'root');
-mysqli_select_db($con,'codespindle');
-if (isset($_GET['qid'])) {
-    $qid = $_GET['qid'];
-    $id = $_GET['id'];
-} else {
-return;
-}
 
-$tem = mysqli_query($con, "select * from tqn where qid=$qid");
-while($temp = mysqli_fetch_array($tem)){
-    $qname = $temp["qun"];
-} 
+mysqli_select_db($con, 'codespindle');
 
-function delq(){
 
-    $con = mysqli_connect('localhost', 'root');
-    mysqli_select_db($con, 'codespindle');
-    // query must always be in double quotes!
-    $qid = $_GET['qid'];
-    $id = $_GET['id'];
-    mysqli_query($con, "delete from tqn where qid = $qid");
-    ?>
-    <script>
-        window.location.href = "test_qun.php?id=<?php echo $id; ?>";
-    </script>
 
-    <?php
-}
-
-if (array_key_exists('delbtn', $_POST)) {
-    delq();
-}
 
 ?>
+
+
+
 
 
 <!DOCTYPE html>
@@ -45,18 +25,21 @@ if (array_key_exists('delbtn', $_POST)) {
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- css style sheet -->
     <link rel="stylesheet" href="styles.css">
-    <!-- css boot -->
+    <!-- favicon -->
+    <link rel="icon" href="images/favicon.ico">
+    <!-- bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-    <link rel="icon" href="images/favicon.ico">
-    <title>Delete Question</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spinny AI</title>
 </head>
 
 <body>
-    <!-------------------------------------------------------- navbar ------------------------------------------------------->
-    <div class="navi bg-success">
+    <!------------------------------------------- nav bar ------------------------------------------------------------>
+    <div id="navii" class="navi bg-success">
         <nav class="navbar navbar-expand-lg navbar-dark bg-success">
             <a class="navbar-brand" href="home.php">CodeSpindle</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01"
@@ -66,6 +49,9 @@ if (array_key_exists('delbtn', $_POST)) {
 
             <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
                 <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="spinny.php">Spinny</a>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link" href="java.php">Java</a>
                     </li>
@@ -81,11 +67,9 @@ if (array_key_exists('delbtn', $_POST)) {
                         <?php
                     }
                     ?>
-
                     <li class="nav-item">
                         <a class="nav-link" href="take_test.php">Take Test</a>
                     </li>
-
                     <li>
 
                         <a href="" class="text-white text-decoration-none" id="dropdownUser1" data-bs-toggle="dropdown"
@@ -113,32 +97,34 @@ if (array_key_exists('delbtn', $_POST)) {
             </div>
         </nav>
     </div>
-
-    <div class="container" id="newtdb" style="position:fixed; top: 10%; bottom: 0; left: 0; right: 0;">
-        <form id="delform" method="post"></form>
-        <h5>Delete Question->
-            <?php
-                if(strpos($qname,'qna_images') !== false){
-                    ?>
-                    <img src="<?php echo $qname ?>" alt="Img Not Avl" height="200" width="200">
-                    <?php
-                }
-                else{
-                    echo $qname;
-                } 
-            ?>?
-        </h5>
-        <input form="delform" type="submit" class="btn btn-dark" name="delbtn" value="Yes">
-        <button onclick="location.href='test_qun.php?id=<?php echo $id; ?>'" class="btn btn-danger">No</button>
-    </div>
+    <!-- ********************************************************************************************************** -->
 
 
-    <!-- javascript boot -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
-        crossorigin="anonymous"></script>
+
+    <h2>Enter Java code:</h2>
+    <form method="post">
+        <textarea name="code" rows="10" cols="50"></textarea><br><br>
+        <input type="submit" value="Debug" name="Debug">
+    </form>
+
+    <?php
+        if(isset($_POST['Debug'])){
+            $input = $_POST['code'];
+            $command = "java -jar path/to/javad.jar $input";
+            $output = shell_exec($command);
+            echo $output;
+        }
+
+    ?>
+
+
 
 </body>
 
-</html>
 
+<!-- ------------------------------------------------------------------------------------------------------------------------------- -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+    crossorigin="anonymous"></script>
+
+</html>

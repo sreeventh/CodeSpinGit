@@ -101,39 +101,66 @@ mysqli_select_db($con, 'codespindle');
                             <th style="font-size: xx-large;">✍</th>
                             <th style="font-size: xx-large;">🕕</th>
                             <th>Take Test</th>
+                            <th>Result</th>
                         </tr>
                     </thead>
 
                     <tbody>
                         <?php
-                        $che=0;
+                        $che = 0;
                         $check = mysqli_num_rows(mysqli_query($con, "select * from tcat where deploy_stat=$che"));
                         $cc = mysqli_num_rows(mysqli_query($con, "select * from tcat"));
-                        if($check==$cc){
+                        if ($check == $cc) {
                             ?>
-                            <p style="text-align: center; font-size: xx-large; font-weight: lighter;">No Tests Available!</p>
+                            <p style="text-align: center; font-size: xx-large; font-weight: lighter;">No Tests Available!
+                            </p>
                             <?php
                         } else {
                             $ct = 0;
                             $stat = 1;
                             $res = mysqli_query($con, "select * from tcat where deploy_stat=$stat");
                             while ($row = mysqli_fetch_array($res)) {
+                                $tid = $row['tid'];
                                 $ct += 1;
+                                $att = 0;
                                 ?>
-                            <tr>
-                                <th>
-                                    <?php echo $ct; ?>
-                                </th>
-                                <td>
-                                    <?php echo $row['tname'] ?>
-                                </td>
-                                <td>
-                                    <?php echo $row['tdur'] ?>
-                                </td>
-                                <td><a href="start_test.php?tname=<?php echo $row['tname'] ?>"
-                                        style="text-decoration: none; font-size: xx-large;">🚩</td>
-                            </tr>
-                            <?php
+                                <tr>
+                                    <th>
+                                        <?php echo $ct; ?>
+                                    </th>
+                                    <td>
+                                        <?php echo $row['tname'] ?>
+                                    </td>
+                                    <td>
+                                        <?php echo $row['tdur'] ?>
+                                    </td>
+                                    <?php
+                                    $rrr = mysqli_query($con, "select * from stud_result where tid = $tid && sid=$_SESSION[id]");
+                                    while ($rr = mysqli_fetch_array($rrr)) {
+                                        $att = $rr['tstat'];
+                                    }
+                                    if ($att == 1) {
+                                        ?>
+                                        <td><a href="take_test.php?tname=<?php echo $row['tname'] ?>" onclick="att()"
+                                                style="text-decoration: none; font-size: xx-large; cursor:pointer">🚩</a></td>
+                                        <td><a href="results.php?id=<?php echo $tid; ?>"
+                                                style="text-decoration: none; font-size: xx-large; cursor:pointer">📜</a></td>
+                                        <?php
+
+                                    } else {
+                                        ?>
+
+                                        <td><a href="start_test.php?tname=<?php echo $row['tname'] ?>"
+                                                style="text-decoration: none; font-size: xx-large; cursor: pointer;">🚩</a></td>
+                                        <td><a onclick="resti()"
+                                                style="text-decoration: none; font-size: xx-large; cursor:pointer">📜</a></td>
+                                        <?php
+                                    }
+
+                                    ?>
+
+                                </tr>
+                                <?php
                             }
                         }
                         ?>
@@ -145,6 +172,20 @@ mysqli_select_db($con, 'codespindle');
         </div>
 
     </div>
+
+    <script>
+        function resti() {
+            alert("Please attempt the quiz!")
+        }
+        function att() {
+            alert("Only one attempt allowed!")
+        }
+    </script>
+    <script>
+        function preventBack() { window.history.forward(); }
+        setTimeout("preventBack()", 0);
+        window.onunload = function () { null };  
+    </script>
 
 
 

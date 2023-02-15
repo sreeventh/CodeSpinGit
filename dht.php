@@ -1,43 +1,38 @@
 <?php
-
 session_start();
-
 $con = mysqli_connect('localhost', 'root');
-mysqli_select_db($con,'codespindle');
-if (isset($_GET['qid'])) {
-    $qid = $_GET['qid'];
-    $id = $_GET['id'];
-} else {
-return;
+mysqli_select_db($con, 'codespindle');
+
+$id = $_GET['id'];
+$res = mysqli_query($con, "select * from htop where htid = $id ");
+while($row = mysqli_fetch_array($res)){
+    $topic = $row['topic'];
 }
 
-$tem = mysqli_query($con, "select * from tqn where qid=$qid");
-while($temp = mysqli_fetch_array($tem)){
-    $qname = $temp["qun"];
-} 
-
-function delq(){
-
+function del()
+{
     $con = mysqli_connect('localhost', 'root');
     mysqli_select_db($con, 'codespindle');
-    // query must always be in double quotes!
-    $qid = $_GET['qid'];
+
     $id = $_GET['id'];
-    mysqli_query($con, "delete from tqn where qid = $qid");
+
+    // query must always be in double quotes!
+    mysqli_query($con, "delete from htop where htid = $id");
     ?>
     <script>
-        window.location.href = "test_qun.php?id=<?php echo $id; ?>";
+        window.location.href = "html.php"
     </script>
 
     <?php
 }
 
 if (array_key_exists('delbtn', $_POST)) {
-    delq();
+    del();
 }
 
-?>
 
+
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -47,11 +42,12 @@ if (array_key_exists('delbtn', $_POST)) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="images/favicon.ico">
     <!-- css boot -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-    <link rel="icon" href="images/favicon.ico">
-    <title>Delete Question</title>
+
+    <title>Delete HTML TOPIC</title>
 </head>
 
 <body>
@@ -114,22 +110,13 @@ if (array_key_exists('delbtn', $_POST)) {
         </nav>
     </div>
 
-    <div class="container" id="newtdb" style="position:fixed; top: 10%; bottom: 0; left: 0; right: 0;">
+    <div class="container" id="newtdb" style="position:relative; border: 2px solid;border-radius: 10px;">
         <form id="delform" method="post"></form>
-        <h5>Delete Question->
-            <?php
-                if(strpos($qname,'qna_images') !== false){
-                    ?>
-                    <img src="<?php echo $qname ?>" alt="Img Not Avl" height="200" width="200">
-                    <?php
-                }
-                else{
-                    echo $qname;
-                } 
-            ?>?
+        <h5>Delete HTML Topic->
+            <?php echo $topic ?> ?
         </h5>
         <input form="delform" type="submit" class="btn btn-dark" name="delbtn" value="Yes">
-        <button onclick="location.href='test_qun.php?id=<?php echo $id; ?>'" class="btn btn-danger">No</button>
+        <button onclick="location.href='html.php'" class="btn btn-danger">No</button>
     </div>
 
 
@@ -141,4 +128,3 @@ if (array_key_exists('delbtn', $_POST)) {
 </body>
 
 </html>
-
